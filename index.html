@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Eaglercraft Hub</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f8f8f8;
+      margin: 0;
+      padding: 50px;
+    }
+    .play-btn {
+      background: #00a2ff;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      background: white;
+      border-radius: 10px;
+      padding: 20px 30px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.3);
+      text-align: left;
+      z-index: 1000;
+    }
+    #popup h2 {
+      margin-top: 0;
+    }
+    #popup ol {
+      margin-left: 20px;
+    }
+    #popup button {
+      margin: 10px 10px 0 0;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .btn-play { background: #00a2ff; color: white; }
+    .btn-download { background: #ddd; color: black; }
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to GetMc Downloand Hub</h1>
+  <button class="play-btn" onclick="playGame()">Downloand!</button>
+
+  <div id="overlay"></div>
+  <div id="popup"></div>
+
+  <script>
+    function playGame() {
+      if (!localStorage.getItem("eaglerDownloaded")) {
+        // First time popup
+        showPopup("first");
+        // Auto start download
+        setTimeout(() => {
+          window.location.href = "https://www.theminecraftarchitect.com/s/2016-Mini-Game-Lobby-JE-188-UNZIP.zip"; // replace with your file
+        }, 1500);
+        localStorage.setItem("eaglerDownloaded", "true");
+      } else {
+        // Already downloaded → show choice popup
+        showPopup("repeat");
+      }
+    }
+
+    function showPopup(type) {
+      let popup = document.getElementById("popup");
+      let overlay = document.getElementById("overlay");
+      let content = "";
+
+      if (type === "first") {
+        content = `
+          <h2>Thanks for downloading The Map!</h2>
+          <p>The File has been will be downloanded as a zip. Download should start in a few seconds.</p>
+          <ol>
+            <li>Once downloaded, you can now play!</li>
+            <li>If your unsure how to use, follow the steps to downloand/play: https://bit.ly/GetMc_Tutorial</li>
+            <li>Now that it’s downloanded, <a href="https://getmcnet.github.io/1.8.8/" onclick="joinGame()">join the experience</a>.</li>
+          </ol>
+        `;
+      } else {
+        content = `
+          <h2>Already Downloaded</h2>
+          <p>We detected you already downloaded this file before. Do you want to download again or just play?</p>
+          <button class="btn-play" onclick="joinGame()">Play</button>
+          <button class="btn-download" onclick="downloadAgain()">Download</button>
+        `;
+      }
+
+      popup.innerHTML = content;
+      popup.style.display = "block";
+      overlay.style.display = "block";
+
+      overlay.onclick = closePopup;
+    }
+
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+    }
+
+    function joinGame() {
+      window.open("https://getmcnet.github.io/1.8.8/", "_blank");
+      window.close();
+    }
+
+    function downloadAgain() {
+      window.location.href = "https://www.theminecraftarchitect.com/s/2016-Mini-Game-Lobby-JE-188-UNZIP.zip"; // replace with your file
+    }
+  </script>
+
+</body>
+</html>
